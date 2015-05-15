@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @user.name %>
+</p>
+
+<p>
+  <strong>Email:</strong>
+  <%= @user.email %>
+</p>
+
+<!--<p>
+  <strong>Password:</strong>
+  <%= @user.password %>
+</p>-->
+
+<p>
+  <strong>Dob:</strong>
+  <%= @user.dob %>
+</p>
+
+<p>
+  <strong>Date:</strong>
+  <%= @user.date %>
+</p>
+
+<p>
+  <strong>Repuation:</strong>
+  <%= @user.repuation %>
+</p>
+</br>
+<p>
+<% if current_user.present? && current_user.id == @user.id %>
+<%= link_to 'Create Question', new_question_path %> | 
+  <% end %>
+<%= link_to 'List Question', listquestion_path %>
+</p>
+
