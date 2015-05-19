@@ -3,7 +3,8 @@
      <%= link_to "RIP-Q&A", root_path, id: "logo" %>
     <nav>
       <ul class="nav navbar-nav navbar-right">
-        <li><%= link_to "USERS", users_path %></li>
+        <li><%= link_to "USERS", users_path %></li> 
+        <li><%= link_to "SIGN UP", signup_path %></li>
         <% if signed_in? %>
           <li><%= link_to "PROFILE", current_user %></li>
           <li><%= link_to "Sign out", signout_path, method: "delete" %></li>
