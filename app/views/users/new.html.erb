@@ -5,23 +5,26 @@
   <div class="col-md-6 col-md-offset-3">
     <%= form_for(@user) do |f| %>
      <%= render 'shared/error_messages' %>
-      <%= f.label :name %>
-      <%= f.text_field :name %>
-
       <%= f.label :email %>
-      <%= f.email_field :email %>
+      <%= f.email_field :email , class: 'form-control'%>
+
+      <%= f.label :dispname,"Display Name"%>
+      <%= f.text_field :dispname , class: 'form-control'%>
+
+      <%= f.label :name %>
+      <%= f.text_field :name , class: 'form-control'%>
+
+      <%= f.label :firstname %>
+      <%= f.text_field :firstname , class: 'form-control'%>
+      
+      <%= f.label :lastname %>
+      <%= f.text_field :lastname , class: 'form-control'%>
 
       <%= f.label :password %>
-      <%= f.password_field :password %>
-
-      <%= f.label :password_confirmation, "Confirmation" %>
-      <%= f.password_field :password_confirmation %>
-    
-    <%= f.label :dob %>
-    <%= f.text_field :dob %>
-    
-    <%= f.label :repuation %>
-    <%= f.text_field :repuation %>
+      <%= f.password_field :password , class: 'form-control'%>
+      
+      <%= f.label :password_confirmation,"Confirmation" %>
+      <%= f.password_field :password_confirmation , class: 'form-control'%>
 
       <%= f.submit "Create my account", class: "btn btn-primary" %>
     <% end %>

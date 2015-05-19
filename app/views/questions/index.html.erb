@@ -1,38 +1,72 @@
-<h1>Listing questions</h1>
+<% provide(:title, 'Questions') %>
 
-<table style="width:85%">
-  <thead>
-    <tr align="center">
-      <th>User</th>
-      <th>Title</th>
-      <th>Content</th>
-      <th>Description</th>
-      <th>Vote</th>
-      <th>Unvote</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
+<script>enablejs_questions()</script>
 
-  <tbody>
-    <% @questions.each do |question| %>
-      <tr>
-        <td><%= link_to question.user.name, question.user %></td>
-        <td><%= link_to question.title, question %></td>
-        <td><%= question.content %></td>
-        <td><%= question.description %></td>
-        <td><%= question.vote %></td>
-        <td><%= question.unVote %></td>
-        <td><%= link_to 'Show', question %></td>
-        <% if current_user.present? && current_user.id == question.user.id %>
-        <td><%= link_to 'Edit', edit_question_path(question) %></td>
-        <td><%= link_to 'Destroy', question, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-         <% end %>
-      </tr>
+<div id="overlay">
+  <div id="wrapQuestionForm">
+    <%= image_tag "close.png", id: "closeImg" %>
+    <p class="formText">What would you like to know?</p>
+    <%= form_for(:question, url: questions_path, html: { id: "questionForm" }) do |f| %>
+      <p class="formLabel">
+        <%= f.label :title, "Title:" %>
+        <%= f.text_field :title, class: "inputBorder" %>
+        <span class="formError">*Title is required.</span>
+      </p>
+      <p class="formLabel">
+        <%= f.label :content, "Question:" %>
+        <%= f.text_area :content, class: "inputBorder" %>
+        <span class="formError">*Question is required.</span>
+      </p>
+      <p class="submitPos">
+        <%= f.submit "Post Question", id: "formSubmit" %>
+      </p>
     <% end %>
-  </tbody>
-</table>
+  </div>
+</div>
 
-<br>
-<% if logged_in? %>
-<%= link_to 'New Question', new_question_path %>
-<% end %>
+<div id="wrapLeft">
+  <nav>
+    <ul>
+      <li><%= link_to "NEWEST", root_path(order: "newest"), class: "subnav" %></li>
+      <li><%= link_to "VOTES", root_path(order: "votes"), class: "subnav" %></li>
+      <li><%= link_to "UNANSWERED", root_path(order: "unanswered"), class: "subnav" %></li>
+    </ul>
+  </nav>
+
+  <div id="questions">
+    <% @questions.each do |question| %>
+      <div class="qSummary">
+        <div class="qStats">
+          <div class="qVotes">
+            <% str = pluralize(question.votes, "vote").split %>
+            <p class="number"><%= str[0] %></p>
+            <p class="vot"><%= str[1] %></p>
+          </div>
+          <div class="qAnswers">
+            <% str = pluralize(question.answers.count, "answer").split %>
+            <p class="number"><%= str[0]  %></p>
+            <p class="label"><%= str[1] %></p>
+          </div>
+        </div>
+        <div class="qQuestion">
+          <%= link_to question.title, question, class: "qTitle" %>
+          <p class="qContent"><%= add_dots(question.content, 300) %></p>
+          <p class="qAuthor">
+            asked on <%= question.created_at.strftime("%d.%m.%Y") %> by
+            <%= link_to question.user.dispname, question.user, class: "userLink" %>
+            <%= link_to 'Destroy',question, method: :delete, data: { confirm: 'Are you sure?' } %>
+          </p>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <%= will_paginate @questions, previous_label: "&#x25C0", next_label: "&#x25B6" %>
+
+</div>
+
+<div id="wrapRight">
+  <div id="askQuestion">
+    <p>Ask Question</p>
+  </div>
+</div>

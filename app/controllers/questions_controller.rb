@@ -1,5 +1,6 @@
 class QuestionsController < ApplicationController
   before_action :set_question, only: [:show, :edit, :update, :destroy]
+  before_filter :signed_in_user, only: [:create, :vote]
 
   def index
     qpp=4 #ques per page
@@ -16,7 +17,7 @@ class QuestionsController < ApplicationController
  
   def show
     @question = Question.find(params[:id])
-    @answers =@question.answers.oder(votes: :desc)
+    @answers =@question.answers.order(votes: :desc)
   end
 
   # GET /questions/new
@@ -44,11 +45,11 @@ class QuestionsController < ApplicationController
 
     # Kiem tra trong cookies xem user da vote cau hoi or cau tl nay chua
     if cookies[vote_digest].nil?
-      vote params[:vote]
-      if(vote == 'up')
-        question.update_attributes(votes: (question.votes +1))
+      vote = params[:vote]
+      if vote == 'up'
+        question.update_attributes(:votes => (question[:votes] +1))
       elsif vote=='down'
-        question.update_attributes(votes: (question.votes -1))
+        question.update_attributes(:votes => (question[:votes] -1))
       end
 
       cookies.permanent[vote_digest]=1
@@ -73,17 +74,23 @@ class QuestionsController < ApplicationController
   # DELETE /questions/1
   # DELETE /questions/1.json
   def destroy
+    @question.answers.each do |ans|
+      ans.destroy
+    end
     @question.destroy
     respond_to do |format|
-      format.html { redirect_to questions_url, notice: 'Question was successfully destroyed.' }
+      format.html { redirect_to root_path, notice: 'Question was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
 
   private
+     def set_question
+      @question = Question.find(params[:id])
+    end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def question_params
-      params.require(:question).permit(:Title, :Description)
+      params.require(:question).permit(:title, :content)
     end
 end

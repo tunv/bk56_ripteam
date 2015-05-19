@@ -1,71 +1,80 @@
-<p id="notice"><%= notice %></p>
+<% provide(:title, @question.title) %>
 
-<p>
-  <strong>User:</strong>
-  <%= @question.user.name if @question.user %>
-</p>
-<p>
-  <strong>Title:</strong>
-  <%= @question.title %>
-</p>
+<script>enablejs_answers()</script>
 
-<p>
-  <strong>Description:</strong>
-  <%= @question.description %>
-</p>
+<div id="overlay">
+  <div id="wrapAnswerForm">
+    <%= image_tag "close.png", id: "closeImg" %>
+    <p class="formText">Share your knowledge.</p>
 
-<p>
-  <strong>Vote:</strong>
-  <%= @question.vote %>
-</p>
-
-<p>
-  <strong>Unvote:</strong>
-  <%= @question.unVote %>
-</p>
-
-<p>
-  <strong>Content:</strong>
-  <%= @question.content %>
-</p>
-
-<% if current_user.present? && current_user.id == @question.user.id %>
-<%= link_to 'Edit', edit_question_path(@question) %> | 
-<%= link_to 'Destroy', @question, method: :delete, data: { confirm: 'Are you sure?' } %>
-<% end %>
-<br></br>
-
-<div>
-  <b><font color = "blue">Have <%= @question.answers.count %> answer(s): </font></b>
-<hr>
-  <% if @question.answers.count > 0 %>
-  <% @answers = @question.answers %>
-  <% @answers.each do |answer| %>
-      <strong>Title Answer:</strong> <%= answer.title %>
-  </br>
-      <strong>Answer:</strong> <%= answer.content %>
-<% if current_user.present? && current_user.id == answer.user.id %>
-<br></br>
-<%= link_to 'Edit', edit_answer_path(answer) %> | 
-<%= link_to 'Destroy', answer, method: :delete, data: { confirm: 'Are you sure?' } %>
-  <% end %>
-  <hr>
-  <% end %>
-  <% end %>
+    <%= form_for(:answer, url: answers_path, html: { id: "answerForm" }) do |f| %>
+      <%= hidden_field_tag "question_id", @question.id %>
+      <p class="formLabel">
+        <%= f.label :content, "Your answer:" %>
+        <%= f.text_area :content, class: "inputBorder" %>
+        <span class="formError">*Answer is required.</span>
+      </p>
+      <p class="submitPos">
+        <%= f.submit "Post answer", id: "formSubmit" %>
+      </p>
+    <% end %>
+  </div>
 </div>
 
-<div class = "leave a comment">
-    Leave a comment: 
-  <p style="color: red", align="center"><b><%= flash[:error] %> </b></p>
-<p>
-  <%= render :partial => 'answers/form', :question => @question, :answer => @answer = Answer.new %>
-</p>
+<p class="title"><%= @question.title %></p>
+<div class="questionFrame">
+  <div class="votes">
+    <%= link_to image_tag('arrow_up.png', class: "arrowImg"),
+                vote_question_path(question_id: @question.id, vote: "up") %>
+    <p><%= @question.votes %></p>
+    <%= link_to image_tag('arrow_down.png', class: "arrowImg"),
+                vote_question_path(question_id: @question.id, vote: "down") %>
+  </div>
+  <div class="frameContent">
+    <div class="mainText">
+      <% @question.content.split("\n").each do |str| %>
+        <p><%= str %></p>
+      <% end %>
+    </div>
+    <p class="author">
+      asked on <%= @question.created_at.strftime("%d.%m.%Y") %> by
+      <%= link_to @question.user.dispname, @question.user, class: "userLink" %>
+    </p>
+    <hr>
+  </div>
 </div>
 
-</br>
-<p>
-<% if current_user.present? && current_user.id == @question.user.id %>
-<%= link_to 'Create Question', new_question_path %> | 
+<div id="middle">
+  <p class="title"><%= pluralize(@question.answers.count, "answer") %></p>
+  <p id="addAnswer"><span lang="en" id="langAddAns">Add Answer</span></p>
+</div>
+
+<% @answers.each do |answer| %>
+  <div class="answerFrame">
+    <div class="votes">
+      <%= link_to image_tag('arrow_up.png', class: "arrowImg"),
+                  vote_answer_path(answer_id: answer.id, vote: "up") %>
+      <p><%= answer.votes %></p>
+      <%= link_to image_tag('arrow_down.png', class: "arrowImg"),
+                  vote_answer_path(answer_id: answer.id, vote: "down") %>
+      <% if answer.selected %>
+        <%= image_tag('ok_green.png', class: "pickAnswerImg") %>
+      <% elsif current_user?(@question.user) %>
+        <%= link_to image_tag('ok_gray.png', class: "pickAnswerImg"), pick_path(answer_id: answer.id) %>
+      <% end %>
+    </div>
+    <div class="frameContent">
+      <div class="mainText">
+        <% answer.content.split("\n").each do |str| %>
+          <p><%= str %></p>
+        <% end %>
+      </div>
+      <p class="author">
+        answered on <%= answer.created_at.strftime("%d.%m.%Y") %> by
+        <%= link_to answer.user.dispname, answer.user, class: "userLink" %>
+        <%= link_to 'Destroy', answer, method: :delete, data: { confirm: 'Are you sure?' } %>
+      </p>
+      <hr>
+    </div>
+  </div>
 <% end %>
-<%= link_to 'List Question', listquestion_path %>
-</p>

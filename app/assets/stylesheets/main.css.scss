@@ -1,0 +1,144 @@
+
+@import "bootstrap-sprockets";
+@import "bootstrap";
+html {
+  overflow-y: scroll;
+}
+
+body {
+  padding-top: 50px;
+}
+
+div,nav,footer,h1,h2,h3,h4,h5,h6,p,a,ul,ol,li {
+    margin: 0px;
+    padding: 0px;
+}
+
+
+#container {
+    min-height: 100%;
+    position: relative;
+    background-image: url(image_path("dots.png"));
+}
+
+#logo {
+  float: left;
+  margin-left: 70px;
+  font-size: 1.7em;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: -1px;
+  padding-top: 9px;
+  font-weight: bold;
+}
+
+header {
+    display: block;
+    height: 50px;
+    background-color: #9C9C9C;
+}
+
+header #topHead {
+    display: block;
+    width: 1000px;
+    margin: 0 auto;
+    overflow: hidden;
+    position: relative;
+}
+
+header #topHead img {
+    border:none;
+    float: left;
+    height: 60px;
+    margin-top: 5px;
+}
+
+header #langPick {
+    position: absolute;
+    right: 0px;
+    background-color: #FFF;
+    border-radius: 0px 0px 10px 10px;
+    padding: 3px;
+}
+
+header #langPick p {
+    background-color: #FFF;
+    color: #333;
+    font-family: Verdana, sans-serif;
+    font-size: 0.75em;
+    font-weight: bold;
+    display: inline-block;
+    cursor: pointer;
+    padding: 0px 5px;
+}
+
+header nav{
+    display: block;
+    width: 900px;
+    margin-right: 0 auto;
+    overflow: hidden;
+    position: relative;
+    top: 0px;
+}
+
+header ul {
+    list-style: none;
+}
+
+header li {
+    display: inline;
+    float: left;
+}
+
+header li:last-child {
+    float: right;
+}
+
+header li a {
+    font-family: Verdana, sans-serif;
+    font-size: 0.9em;
+    font-weight: bold;
+    color: #FFF;
+    text-decoration: none;
+    padding: 5px 15px;
+    display: inline-block;
+}
+
+#wrap {
+    display: block;
+    width: 1000px;
+    margin: 0 auto;
+    background-color: #FFF;
+    overflow: hidden;
+    padding-bottom: 150px;
+}
+
+footer {
+    position: fixed;
+    bottom: 0px;
+    width: 100%;
+    height: 40px;
+    clear: both;
+    background-color: #333;
+}
+
+footer p {
+    font-family: Verdana, sans-serif;
+    font-size: 0.8em;
+    color: #FFF;
+    text-align: center;
+    width: 1000px;
+    margin: 0 auto;
+    padding-top: 15px;
+}
+
+footer a {
+    font-family: Verdana, sans-serif;
+    font-size: 0.9em;
+    font-weight: bold;
+    color: #FFF;
+    text-decoration: none;
+}
+
+
+

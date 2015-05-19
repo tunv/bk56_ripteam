@@ -1,29 +1,27 @@
-<h1>Listing users</h1>
-<% flash.each do |message_type, message| %>
-        <div class="alert alert-<%= message_type %>"><%= message %></div>
-      <% end %>
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Email</th>
-      <th>Dob</th>
-      <th>Date</th>
-      <th>Repuation</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
+<% provide(:title, 'Users') %>
 
-  <tbody>
-    <% @users.each do |user| %>
-      <tr>
-        <td><%= user.name %></td>
-        <td><%= user.email %></td>
-        <td><%= user.dob %></td>
-        <td><%= user.date %></td>
-        <td><%= user.repuation %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-<br>
+<div id="searchFrame">
+  <%= form_tag users_path, method: 'get' do %>
+    <p class="findUsers">
+      <%= label_tag :search, "Find Users:" %>
+      <%= text_field_tag :search, params[:search], class: "inputBorder" %>
+    </p>
+
+    <%= submit_tag "Go", name: nil, id: "goButton", class: "submit" %>
+  <% end %>
+</div>
+
+<div id="allUsers">
+  <% @users.each do |user| %>
+    <div class="userFrame">
+      <%= image_tag("profile_pic.png") %>
+      <p>
+        <%= link_to user.dispname, user, class: "userLink" %>
+      </p>
+      <p><%= "#{user.firstname} #{user.lastname}" %></p>
+      <p><%= "#{user.email}" %></p>
+    </div>
+  <% end %>
+</div>
+
+<%= will_paginate @users, previous_label: "&#x25C0", next_label: "&#x25B6" %>

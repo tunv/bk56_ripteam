@@ -1,0 +1,73 @@
+/*
+  Place all the styles related to the matching controller here.
+  They will automatically be included in application.css.
+*/
+
+#searchFrame {
+    margin: 20px;
+    margin-bottom: 10px;
+}
+
+.findUsers {
+    font-family: "Trebuchet MS", Helvetica, sans-serif;
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #333;
+    display: inline;
+}
+
+#allUsers {
+    overflow: hidden;
+}
+
+.userFrame {
+    border: 1px solid #a1a1a1;
+    margin: 15px;
+    width: 300px;
+    float: left;
+}
+
+.userFrame:hover {
+    border-color: #9ecaed;
+    box-shadow: 0 0 4px #9ecaed;
+}
+
+.userFrame p {
+    font-family: "Trebuchet MS", Helvetica, sans-serif;
+    font-size: 0.9em;
+    color: #333;
+    margin: 5px;
+    margin-left: 90px;
+}
+
+.userFrame img {
+    border: none;
+    float: left;
+    width: 80px;
+    height: 80px;
+}
+
+.userLink {
+    text-decoration: none;
+    color: #0057C1;
+}
+
+.userLink:hover {
+    text-decoration: underline;
+}
+
+#goButton {
+    font-family: "Trebuchet MS", Helvetica, sans-serif;
+    font-weight: bold;
+    border: none;
+    background-color: #0078F0;
+    color: #FFF;
+    cursor: pointer;
+    padding: 3px 5px;
+    margin-left: 5px;
+    width: 50px;
+}
+
+#goButton:hover {
+    background-color: #3C9DFF;
+}

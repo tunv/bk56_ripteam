@@ -14,12 +14,45 @@ class AnswersController < ApplicationController
     else
       render 'questions/show'
   end
+end
 
   def pick_answer
     answer = Answer.find(params[:answer_id])
     if current_user?(answer.question.user)
-
+      prev_pick =answer.question.answers.where(selected: true)
+      prev_pick.each do |pick|
+        pick.update_attributes(selected: false)
+      end
+      answer.update_attributes(selected: true)
+      # redirect to question page
+      redirect_to answer.question
+    else
+      redirect_to root_path
+    end
   end
+  
+  # Function vote and unvote
+  def vote
+    user=current_user
+    answer = Answer.find(params[:answer_id])
+    question= answer.question
+    vote_string= "#{user.email}_answer_#{answer.id}"
+    vote_digest = Digest::MD5.hexdigest vote_string
+
+    # Kiem tra trong cookies xem user da vote cau hoi or cau tl nay chua
+    if cookies[vote_digest].nil?
+      vote = params[:vote]
+      if vote == 'up'
+        answer.update_attributes(:votes => (answer[:votes] +1))
+      elsif vote=='down'
+        answer.update_attributes(:votes => (answer[:votes] -1))
+      end
+
+      cookies.permanent[vote_digest]=1
+    end
+    redirect_to question
+  end
+
   def update
     @answer.question = @question
     respond_to do |format|
@@ -34,12 +67,10 @@ class AnswersController < ApplicationController
   end
 
   def destroy
-    @question = @answer.question
-    @answer.destroy
-    respond_to do |format|
-      format.html { redirect_to @question, notice: 'Answer was successfully destroyed.' }
-      format.json { head :no_content }
-    end
+  @answer=Answer.find(params[:id])
+  @question=@answer.question
+  @answer.destroy
+  redirect_to @question
   end
 
   private

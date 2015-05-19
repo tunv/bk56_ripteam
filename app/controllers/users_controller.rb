@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :correct_user, only: [:show, :edit, :update, :destroy]
+  before_filter :correct_user, only: [:show, :edit, :update, :destroy]
   before_filter :signed_in_user, only: [:edit, :update]
 
 
@@ -21,7 +21,7 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
-    @user.date = Time.now
+    # @user.date = Time.now
       if @user.save
         sign_in @user
         # flash[:success] = "Welcome to the language Q&A!"
@@ -56,7 +56,7 @@ class UsersController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
   def user_params
-    params.require(:user).permit(:email, :dispname, :firstname, :lastname, :password, :password_confirmation)
+    params.require(:user).permit(:email, :dispname, :name,:firstname,:lastname, :password, :password_confirmation)
   end
 
   def correct_user

@@ -8,4 +8,12 @@ module ApplicationHelper
       "#{page_title} | #{base_title}"
     end
   end
+
+  def add_dots(text, limit)
+    if text.length > limit
+      "#{text[0..limit]}..."
+    else
+      text
+    end
+  end
 end

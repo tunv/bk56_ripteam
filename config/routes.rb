@@ -2,19 +2,24 @@ Rails.application.routes.draw do
   resources :questions do
     resources :answers
   end
-
-  get 'static_pages/home'
-  root 'static_pages#home'
-  get 'signup'  => 'users#new'
-  get 'listquestion' => 'questions#index'
-  get    'login'   => 'sessions#new'
-  post   'login'   => 'sessions#create'
-  delete 'logout'  => 'sessions#destroy'
-#  get 'questions/:id/answer' => 'answers#index'
-#   get 'new_answer' => 'answers#new'
-  
+    
   resources :users
   resources :answers
+  resources :answers, only: [:create, :destroy]
+  resources :sessions, only: [:create, :destroy]
+
+  get 'static_pages/home'
+  root 'questions#index'
+  get 'signup'  => 'users#new'
+  get 'listquestion' => 'questions#index'
+  get    'signin'   => 'sessions#new'
+  post   'signin'   => 'sessions#create'
+  delete 'signout'  => 'sessions#destroy'
+  get '/pick/:answer_id', to: 'answers#pick_answer', as: 'pick'
+  get '/vote_answer/:answer_id/:vote', to: 'answers#vote', as: 'vote_answer'
+  get '/vote_question/:question_id/:vote', to: 'questions#vote', as: 'vote_question'
+  get 'about' => 'static_pages#about'
+
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
