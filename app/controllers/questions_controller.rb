@@ -1,6 +1,6 @@
 class QuestionsController < ApplicationController
   before_action :set_question, only: [:show, :edit, :update, :destroy]
-  before_filter :signed_in_user, only: [:create, :vote]
+  before_filter :signed_in_user, only: [:create, :vote, :destroy]
 
   def index
     qpp=4 #ques per page
@@ -83,7 +83,7 @@ class QuestionsController < ApplicationController
       format.json { head :no_content }
     end
   end
-
+  
   private
      def set_question
       @question = Question.find(params[:id])

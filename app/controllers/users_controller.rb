@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_filter :correct_user, only: [:show, :edit, :update, :destroy]
+  before_filter :correct_user, only: [:edit, :update, :destroy]
   before_filter :signed_in_user, only: [:edit, :update]
 
 

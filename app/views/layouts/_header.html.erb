@@ -1,13 +1,14 @@
 <header class="navbar navbar-fixed-top navbar-inverse">
   <div class="container">
-     <%= link_to "RIP-Q&A", root_path, id: "logo" %>
+    <%= link_to "RIP-Q&A", root_path, id: "logo" %>
     <nav>
       <ul class="nav navbar-nav navbar-right">
         <li><%= link_to "USERS", users_path %></li> 
         <li><%= link_to "SIGN UP", signup_path %></li>
         <% if signed_in? %>
           <li><%= link_to "PROFILE", current_user %></li>
-          <li><%= link_to "Sign out", signout_path, method: "delete" %></li>
+        <li><%= link_to "SETTING", edit_user_path(current_user) %></li>
+          <li><%= link_to "SIGN OUT", signout_path, method: "delete" %></li>
         <% else %>
           <li><%= link_to "SIGN IN",signin_path %></li>
         <% end %>

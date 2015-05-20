@@ -54,7 +54,10 @@
           <p class="qAuthor">
             asked on <%= question.created_at.strftime("%d.%m.%Y") %> by
             <%= link_to question.user.dispname, question.user, class: "userLink" %>
+            <% if current_user?(question.user) %>
             <%= link_to 'Destroy',question, method: :delete, data: { confirm: 'Are you sure?' } %>
+            <%= link_to 'Edit', edit_question_path(question) %>
+            <% end %>
           </p>
         </div>
       </div>
